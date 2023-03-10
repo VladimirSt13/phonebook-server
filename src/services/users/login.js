@@ -4,8 +4,12 @@ const { error } = require("../../helpers/error");
 const { User } = require("../../models/userModel");
 
 const login = async (email, password) => {
-  const user = await User.findOne({ email, verify: true });
+  const user = await User.findOne({ email: email});
 
+  if(!user.verify) {
+    throw error(401, `Please verify your email before accessing this resource.`);
+  }
+  
   if (!user) {
     throw error(401, `No user with email '${email}' found`);
   }
