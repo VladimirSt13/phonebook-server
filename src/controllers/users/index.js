@@ -10,6 +10,7 @@ const {
 } = require("./updateSubscriptionController");
 const { logoutController } = require("./logoutController");
 const { uploadAvatarController } = require("./uploadAvatarController");
+
 module.exports = {
   signupController,
   signupVerificationController,

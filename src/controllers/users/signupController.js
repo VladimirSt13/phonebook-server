@@ -8,7 +8,7 @@ const signupController = async (req, res) => {
   return res.status(201).json({
     user: {
       email: user.email,
-      subscription: user.subscription,
+      token: user.token,
     },
   });
 };

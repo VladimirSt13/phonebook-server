@@ -3,7 +3,6 @@ dotenv.config();
 const app = require("./src/app");
 const { connectDb } = require("./src/db/connection");
 
-
 const PORT = process.env.PORT || 3003;
 
 const start = async () => {
@@ -15,10 +14,12 @@ const start = async () => {
         console.log("error in server launch:", error);
         process.exit(1);
       }
-      console.log("Database connection successful. Use our API on port: 3000");
+      console.log(
+        `Database connection successful. Use our API on port: ${PORT}`
+      );
     });
   } catch (error) {
-    console.error(`Failed to lounch application with error: ${error.message}`);
+    console.error(`Failed to launch application with error: ${error.message}`);
     process.exit(1);
   }
 };
