@@ -1,7 +1,5 @@
-const Joi = require("joi");
+import Joi from "joi";
 
-const updateStatusContactSchema = Joi.object({
+export const updateStatusContactSchema = Joi.object({
   favorite: Joi.boolean().required(),
 });
-
-module.exports = { updateStatusContactSchema };

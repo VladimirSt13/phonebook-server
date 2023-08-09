@@ -1,6 +1,6 @@
-const Joi = require("joi");
+import Joi from "joi";
 
-const userSchema = Joi.object({
+export const userSchema = Joi.object({
   name: Joi.string(),
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
@@ -11,5 +11,3 @@ const userSchema = Joi.object({
   subscription: Joi.string(),
   token: Joi.string(),
 });
-
-module.exports = { userSchema };

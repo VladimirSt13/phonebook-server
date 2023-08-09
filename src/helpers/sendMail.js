@@ -11,13 +11,13 @@
 
 // await sgMail.send(msg);
 
-const nodemailer = require("nodemailer");
+import nodemailer from "nodemailer";
 
-const sendMail = async (email, subject, message) => {
+export const sendMail = async (email, subject, message) => {
   const config = {
     host: "smtp.meta.ua",
     port: 465,
-    secure: true, // true,
+    secure: true,
     auth: {
       user: process.env.MAIL_FROM,
       pass: process.env.MAIL_PASSWORD,
@@ -39,7 +39,4 @@ const sendMail = async (email, subject, message) => {
   } catch (err) {
     console.log("nodemailer", err.response);
   }
-};
-module.exports = {
-  sendMail,
 };

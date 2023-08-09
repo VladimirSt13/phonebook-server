@@ -1,12 +1,12 @@
-const express = require("express");
-const logger = require("morgan");
-const cors = require("cors");
+import express from "express";
+import logger from "morgan";
+import cors from "cors";
 
-const { router: contactsRouter } = require("./routes/api/contacts");
-const { usersRouter } = require("./routes/api/users");
-const { errorHandler } = require("./helpers/apiHelpers");
+import { router as contactsRouter } from "./routes/api/contacts.js";
+import { usersRouter } from "./routes/api/users.js";
+import { errorHandler } from "./helpers/apiHelpers.js";
 
-const app = express();
+export const app = express();
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
@@ -23,6 +23,3 @@ app.use((req, res) => {
 });
 
 app.use(errorHandler);
-
-
-module.exports = app;

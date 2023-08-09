@@ -1,7 +1,7 @@
-const { error } = require("../../../helpers/error");
-const { userSchema } = require("../../../schemas/users");
+import { error } from "../../../helpers/error.js";
+import { userSchema } from "../../../schemas/users/index.js";
 
-const userValidation = (req, res, next) => {
+export const userValidation = (req, res, next) => {
   const validationResult = userSchema.validate(req.body);
 
   if (validationResult.error) {
@@ -9,8 +9,4 @@ const userValidation = (req, res, next) => {
   }
 
   next();
-};
-
-module.exports = {
-  userValidation,
 };

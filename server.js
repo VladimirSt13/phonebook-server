@@ -1,11 +1,11 @@
-const dotenv = require("dotenv");
+import dotenv from "dotenv";
 dotenv.config();
-const app = require("./src/app");
-const { connectDb } = require("./src/db/connection");
+import { app } from "./src/app.js";
+import { connectDb } from "./src/db/connection.js";
 
 const PORT = process.env.PORT || 3003;
 
-const start = async () => {
+export const start = async () => {
   try {
     await connectDb();
 
@@ -14,9 +14,7 @@ const start = async () => {
         console.log("error in server launch:", error);
         process.exit(1);
       }
-      console.log(
-        `Database connection successful. Use our API on port: ${PORT}`
-      );
+      console.log(`Database connection successful. Use our API on port: ${PORT}`);
     });
   } catch (error) {
     console.error(`Failed to launch application with error: ${error.message}`);
@@ -25,7 +23,3 @@ const start = async () => {
 };
 
 start();
-
-module.exports = {
-  start,
-};

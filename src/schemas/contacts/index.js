@@ -1,9 +1,3 @@
-const { addContactSchema } = require("./addContactSchema");
-const { updateContactSchema } = require("./updateContactSchema");
-const { updateStatusContactSchema } = require("./updateStatusContactSchema");
-
-module.exports = {
-  addContactSchema,
-  updateContactSchema,
-  updateStatusContactSchema,
-};
+export * from "./addContactSchema.js";
+export * from "./updateContactSchema.js";
+export * from "./updateStatusContactSchema.js";

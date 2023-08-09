@@ -1,7 +1,7 @@
-const { mongoose } = require("mongoose");
-const bcrypt = require("bcrypt");
+import { mongoose } from "mongoose";
+import bcrypt from "bcrypt";
 
-const subscriptionTypes = ["starter", "pro", "business"];
+export const subscriptionTypes = ["starter", "pro", "business"];
 
 const userSchema = new mongoose.Schema({
   password: {
@@ -39,9 +39,4 @@ userSchema.pre("save", async function () {
   }
 });
 
-const User = mongoose.model("User", userSchema);
-
-module.exports = {
-  User,
-  subscriptionTypes,
-};
+export const User = mongoose.model("User", userSchema);

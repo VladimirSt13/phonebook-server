@@ -1,9 +1,3 @@
-const { addContactValidation } = require("./addContactValidation");
-const { updateContactValidation } = require("./updateContactValidation");
-const { updateStatusContactValidation } = require("./updateStatusContactValidation");
-
-module.exports = {
-  addContactValidation,
-  updateContactValidation,
-  updateStatusContactValidation,
-};
+export * from "./addContactValidation.js";
+export * from "./updateContactValidation.js";
+export * from "./updateStatusContactValidation.js";

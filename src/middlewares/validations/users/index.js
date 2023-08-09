@@ -1,11 +1,4 @@
-const { authValidation } = require("./authVlaidation");
-const { userValidation } = require("./userValidation");
-const { emailValidation } = require("./emailValidation");
-const { subscriptionValidation } = require("./subscriptionValidation");
-
-module.exports = {
-  userValidation,
-  authValidation,
-  subscriptionValidation,
-  emailValidation,
-};
+export * from "./authVlaidation.js";
+export * from "./userValidation.js";
+export * from "./emailValidation.js";
+export * from "./subscriptionValidation.js";

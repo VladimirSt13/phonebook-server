@@ -1,6 +1,7 @@
-const multer = require("multer");
-const path = require("path");
-const { createFolderIsNotExist } = require("../helpers/apiHelpers");
+import multer from "multer";
+import path from "path";
+
+import { createFolderIsNotExist } from "../helpers/apiHelpers.js";
 // const { v4: uuid } = require("uuid");
 
 const TMP_DIR = path.join(process.cwd(), "tmp");
@@ -19,8 +20,4 @@ const storage = multer.diskStorage({
   },
 });
 
-const uploadMiddleware = multer({ storage });
-
-module.exports = {
-  uploadMiddleware,
-};
+export const uploadMiddleware = multer({ storage });

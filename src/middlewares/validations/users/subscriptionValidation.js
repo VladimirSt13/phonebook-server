@@ -1,7 +1,7 @@
-const { error } = require("../../../helpers/error");
-const { subscriptionSchema } = require("../../../schemas/users");
+import { error } from "../../../helpers/error.js";
+import { subscriptionSchema } from "../../../schemas/users/index.js";
 
-const subscriptionValidation = (req, res, next) => {
+export const subscriptionValidation = (req, res, next) => {
   const validationResult = subscriptionSchema.validate(req.body);
 
   if (validationResult.error) {
@@ -9,8 +9,4 @@ const subscriptionValidation = (req, res, next) => {
   }
 
   next();
-};
-
-module.exports = {
-  subscriptionValidation,
 };

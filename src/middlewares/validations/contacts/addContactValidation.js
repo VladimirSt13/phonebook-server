@@ -1,11 +1,7 @@
-const { error } = require("../../../helpers/error");
-const { addContactSchema } = require("../../../schemas/contacts");
+import { error } from "../../../helpers/error.js";
+import { addContactSchema } from "../../../schemas/contacts/index.js";
 
-const addContactValidation = (req, res, next) => {
-  console.log(
-    "🚀 ~ file: addContactValidation.js:5 ~ addContactValidation ~ req:",
-    req.body
-  );
+export const addContactValidation = (req, res, next) => {
   const validationResult = addContactSchema.validate(req.body);
 
   if (validationResult.error) {
@@ -14,5 +10,3 @@ const addContactValidation = (req, res, next) => {
 
   next();
 };
-
-module.exports = { addContactValidation };

@@ -1,55 +1,28 @@
-const express = require("express");
-const usersRouter = express.Router();
-const { asyncWrapper } = require("../../helpers/apiHelpers");
-const {
-  signupController,
-  signupVerificationController,
-  verificationController,
-  loginController,
-  logoutController,
-  currentController,
-  updateSubscriptionController,
-  uploadAvatarController,
-} = require("../../controllers/users");
-const {
+import express from "express";
+import { asyncWrapper } from "../../helpers/apiHelpers.js";
+import { userController } from "../../controllers/usersController.js";
+
+import {
+  authValidation,
+  emailValidation,
+  subscriptionValidation,
   userValidation,
-  authValidation,
-  emailValidation,
-  subscriptionValidation,
-} = require("../../middlewares/validations/users");
-const { uploadMiddleware } = require("../../middlewares/uploadMiddleware");
+} from "../../middlewares/validations/users/index.js";
 
-usersRouter.post("/signup", userValidation, asyncWrapper(signupController));
+import { uploadMiddleware } from "../../middlewares/uploadMiddleware.js";
 
-usersRouter.post(
-  "/verify",
-  emailValidation,
-  asyncWrapper(verificationController)
-);
+export const usersRouter = express.Router();
 
-usersRouter.get(
-  "/verify/:verificationToken",
-  asyncWrapper(signupVerificationController)
-);
-
-usersRouter.post("/login", userValidation, asyncWrapper(loginController));
-
-usersRouter.get("/current", authValidation, asyncWrapper(currentController));
-
-usersRouter.patch(
-  "/",
-  authValidation,
-  subscriptionValidation,
-  asyncWrapper(updateSubscriptionController)
-);
-
+usersRouter.post("/signup", userValidation, asyncWrapper(userController.signup));
+usersRouter.post("/verify", emailValidation, asyncWrapper(userController.verification));
+usersRouter.get("/verify/:verificationToken", asyncWrapper(userController.signupVerification));
+usersRouter.post("/login", userValidation, asyncWrapper(userController.login));
+usersRouter.get("/current", authValidation, asyncWrapper(userController.current));
+usersRouter.patch("/", authValidation, subscriptionValidation, asyncWrapper(userController.updateSubscription));
 usersRouter.patch(
   "/avatars",
   authValidation,
   uploadMiddleware.single("avatar"),
-  asyncWrapper(uploadAvatarController)
+  asyncWrapper(userController.uploadAvatar)
 );
-
-usersRouter.post("/logout", authValidation, asyncWrapper(logoutController));
-
-module.exports = { usersRouter };
+usersRouter.post("/logout", authValidation, asyncWrapper(userController.logout));

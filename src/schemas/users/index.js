@@ -1,9 +1,3 @@
-const { userSchema } = require("./userSchema");
-const { emailSchema } = require("./emailSchema");
-const { subscriptionSchema } = require("./subscriptionSchema");
-
-module.exports = {
-  userSchema,
-  emailSchema,
-  subscriptionSchema,
-};
+export * from "./userSchema.js";
+export * from "./emailSchema.js";
+export * from "./subscriptionSchema.js";

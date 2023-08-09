@@ -1,9 +1,9 @@
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
-const { error } = require("../../../helpers/error");
-const { User } = require("../../../models/");
+import { error } from "../../../helpers/error.js";
+import { User } from "../../../models/index.js";
 
-const authValidation = async (req, res, next) => {
+export const authValidation = async (req, res, next) => {
   try {
     const { authorization } = req.headers;
 
@@ -32,8 +32,4 @@ const authValidation = async (req, res, next) => {
   } catch (err) {
     next(error(401, "Not authorized"));
   }
-};
-
-module.exports = {
-  authValidation,
 };

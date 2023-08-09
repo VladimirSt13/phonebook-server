@@ -1,6 +1,6 @@
-const { updateContactSchema } = require("../../../schemas/contacts");
+import { updateContactSchema } from "../../../schemas/contacts/index.js";
 
-const updateContactValidation = (req, res, next) => {
+export const updateContactValidation = (req, res, next) => {
   const validationResult = updateContactSchema.validate(req.body);
 
   if (validationResult.error) {
@@ -9,5 +9,3 @@ const updateContactValidation = (req, res, next) => {
 
   next();
 };
-
-module.exports = { updateContactValidation };

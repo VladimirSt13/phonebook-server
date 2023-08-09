@@ -1,37 +1,22 @@
-const express = require("express");
-const {
-  getContactsController,
-  getContactByIdController,
-  addContactController,
-  updateContactByIdController,
-  updateStatusContactByIdController,
-  removeContactByIdController,
-} = require("../../controllers/contacts");
-const { asyncWrapper } = require("../../helpers/apiHelpers");
-const {
+import express from "express";
+
+import { contactsController } from "../../controllers/contactsControllers.js";
+
+import { asyncWrapper } from "../../helpers/apiHelpers.js";
+import {
   addContactValidation,
   updateContactValidation,
   updateStatusContactValidation,
-} = require("../../middlewares/validations/contacts");
-const { authValidation } = require("../../middlewares/validations/users");
+} from "../../middlewares/validations/contacts/index.js";
+import { authValidation } from "../../middlewares/validations/users/index.js";
 
-const router = express.Router();
+export const router = express.Router();
 
 router.use(authValidation);
 
-router.get("/", asyncWrapper(getContactsController));
-router.get("/:contactId", asyncWrapper(getContactByIdController));
-router.post("/", addContactValidation, asyncWrapper(addContactController));
-router.put(
-  "/:contactId",
-  updateContactValidation,
-  asyncWrapper(updateContactByIdController)
-);
-router.patch(
-  "/:contactId/favorite",
-  updateStatusContactValidation,
-  asyncWrapper(updateStatusContactByIdController)
-);
-router.delete("/:contactId", asyncWrapper(removeContactByIdController));
-
-module.exports = { router };
+router.get("/", asyncWrapper(contactsController.get));
+router.get("/:contactId", asyncWrapper(contactsController.getById));
+router.post("/", addContactValidation, asyncWrapper(contactsController.add));
+router.put("/:contactId", updateContactValidation, asyncWrapper(contactsController.update));
+router.patch("/:contactId/favorite", updateStatusContactValidation, asyncWrapper(contactsController.updateStatusById));
+router.delete("/:contactId", asyncWrapper(contactsController.removeById));

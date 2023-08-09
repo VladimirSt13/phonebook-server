@@ -1,10 +1,9 @@
-const Joi = require("joi");
-const { subscriptionTypes } = require("../../models/userModel");
+import Joi from "joi";
 
-const subscriptionSchema = Joi.object({
+import { subscriptionTypes } from "../../models/userModel.js";
+
+export const subscriptionSchema = Joi.object({
   subscription: Joi.string()
     .valid(...subscriptionTypes)
     .required(),
 });
-
-module.exports = { subscriptionSchema };
