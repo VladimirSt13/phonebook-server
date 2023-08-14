@@ -2,7 +2,6 @@ import bcrypt from "bcrypt";
 import fs from "fs/promises";
 import * as gravatar from "gravatar";
 import Jimp from "jimp";
-import jwt from "jsonwebtoken";
 import path from "path";
 import sha256 from "sha256";
 
@@ -10,6 +9,7 @@ import { createFolderIsNotExist } from "../helpers/apiHelpers.js";
 import { error } from "../helpers/error.js";
 import { sendMail } from "../helpers/sendMail.js";
 import { User } from "../models/index.js";
+import { generateToken } from "../helpers/generateToken.js";
 
 export const userServices = {
   signup: async (email, password, data) => {
@@ -17,13 +17,23 @@ export const userServices = {
     const verificationToken = sha256(email + process.env.JWT_SECRET);
 
     try {
-      const user = new User({
+      const isUserExist = await User.exists({ email });
+      if (isUserExist) {
+        throw error(409, `Email in use`);
+      }
+
+      const user = await User.create({
         email,
         password,
         avatarURL,
         verificationToken,
         ...data,
       });
+
+      const token = generateToken(user);
+      console.log("file: userServices.js:34  signup:  token:", token);
+
+      user.token = token;
 
       await user.save();
 
@@ -35,15 +45,12 @@ export const userServices = {
 
       return user;
     } catch (err) {
-      if (err.code === 11000) {
-        throw error(409, `Email in use, code:${err.code}`);
-      }
       throw error(404, err);
     }
   },
 
   login: async (email, password) => {
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email });
 
     // if(!user.verify) {
     //   throw error(401, `Please verify your email before accessing this resource.`);
@@ -53,15 +60,16 @@ export const userServices = {
       throw error(401, `No user with email '${email}' found`);
     }
 
-    if (!(await bcrypt.compare(password, user.password))) {
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
       throw error(401, "Wrong password");
     }
 
-    const token = jwt.sign({ _id: user._id, email: user.email }, process.env.JWT_SECRET);
-
-    await User.findByIdAndUpdate(user._id, { token });
+    const token = generateToken(user);
 
     user.token = token;
+
+    await user.save();
 
     return user;
   },
@@ -146,16 +154,14 @@ export const userServices = {
     const newFileName = `${fileName}-${userId}.${extension}`;
     const newFilePath = path.join(STORE_AVATARS, newFileName);
 
-    Jimp.read(temporaryName, (err, userAvatar) => {
-      if (err) throw err;
-      userAvatar
-        .resize(250, 250) // resize
-        .quality(100) // set JPEG quality
-        .write(newFilePath); // save
-      fs.unlink(temporaryName, (err) => {
-        if (err) throw err;
-      });
-    });
+    const userAvatar = await Jimp.read(temporaryName);
+
+    await userAvatar
+      .resize(250, 250) // resize
+      .quality(100) // set JPEG quality
+      .write(newFilePath); // save
+
+    await fs.unlink(temporaryName);
 
     const avatarURL = path.join("/avatars", newFileName);
 

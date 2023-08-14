@@ -35,8 +35,8 @@ export const sendMail = async (email, subject, message) => {
 
   try {
     const { response } = await transporter.sendMail(emailOptions);
-    console.log("nodemailer", response);
+    console.log("nodemailer successed", response);
   } catch (err) {
-    console.log("nodemailer", err.response);
+    console.log("nodemailer failed", err);
   }
 };

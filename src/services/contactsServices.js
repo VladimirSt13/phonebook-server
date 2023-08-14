@@ -26,9 +26,9 @@ export const contactsServices = {
   add: async (body, owner) => {
     const newContact = new Contact({ ...body, owner });
 
-    await newContact.save();
+    const createdContact = await newContact.save();
 
-    return newContact;
+    return createdContact;
   },
 
   updateById: async (contactId, owner, body) => {
