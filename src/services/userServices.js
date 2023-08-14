@@ -31,7 +31,6 @@ export const userServices = {
       });
 
       const token = generateToken(user);
-      console.log("file: userServices.js:34  signup:  token:", token);
 
       user.token = token;
 
