@@ -10,7 +10,7 @@ export const userController = {
       token: user.token,
       user: {
         email: user.email,
-        subscription,
+        subscription: user.subscription,
       },
     });
   },
