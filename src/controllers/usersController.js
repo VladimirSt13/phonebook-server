@@ -7,9 +7,10 @@ export const userController = {
     const user = await userServices.signup(email, password, data);
 
     return res.status(201).json({
+      token: user.token,
       user: {
         email: user.email,
-        token: user.token,
+        subscription,
       },
     });
   },
