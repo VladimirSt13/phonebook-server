@@ -24,9 +24,9 @@ export const contactsController = {
     const contact = req.body;
     const { _id: owner } = req.user;
 
-    await contactsServices.add(contact, owner);
+    const newContact = await contactsServices.add(contact, owner);
 
-    res.status(201).json({ contact, message: "Success, contact added" });
+    res.status(201).json({ newContact, message: "Success, contact added" });
   },
 
   update: async (req, res, next) => {
